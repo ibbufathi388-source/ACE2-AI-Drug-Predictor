@@ -17,11 +17,16 @@ st.set_page_config(
 # LOAD DATA
 # -------------------------------------------------
 
-MODEL_PATH = "../Models/best_model.pkl"
-DATA_PATH = "../Output/Final_AI_Dataset.xlsx"
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+MODEL_PATH = BASE_DIR / "Models" / "best_model.pkl"
+DATA_PATH = BASE_DIR / "Output" / "Final_AI_Dataset.xlsx"
 
 model = joblib.load(MODEL_PATH)
 dataset = pd.read_excel(DATA_PATH)
+
 
 # -------------------------------------------------
 # HEADER

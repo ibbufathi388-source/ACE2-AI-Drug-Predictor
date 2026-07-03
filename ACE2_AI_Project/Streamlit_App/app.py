@@ -508,24 +508,6 @@ if drug_query:
 
         st.error("❌ Drug not found.")
 
-st.markdown("""
-<div style="
-background:linear-gradient(
-90deg,
-rgba(0,212,255,.15),
-rgba(123,97,255,.15)
-);
-padding:18px;
-border-radius:20px;
-border:1px solid rgba(255,255,255,.12);
-text-align:center;
-margin-bottom:25px;
-">
-<h4 style="color:white;">
-🧬 AI • Bioinformatics • Machine Learning • Explainable AI
-</h4>
-</div>
-""", unsafe_allow_html=True)
 st.markdown("---")
 st.markdown("""
 <div style="
@@ -542,7 +524,7 @@ margin-bottom:25px;
 ">
 
 <h4 style="color:white;">
-🧬 Powered by Machine Learning • Molecular Docking • Bioinformatics
+AI • Bioinformatics • Machine Learning • Explainable AI
 </h4>
 
 </div>

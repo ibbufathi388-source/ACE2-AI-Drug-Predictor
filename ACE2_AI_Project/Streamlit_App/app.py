@@ -527,7 +527,7 @@ if drug_query:
                 f"https://pubchem.ncbi.nlm.nih.gov/compound/{cid}"
             )
 
-    else:
+        else:
 
         st.error("❌ Drug not found in PubChem.")
         else:

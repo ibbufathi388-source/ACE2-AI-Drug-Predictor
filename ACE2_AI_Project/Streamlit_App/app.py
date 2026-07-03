@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import joblib
 from pathlib import Path
+import requests
 
 # -------------------------------------------------
 # PAGE CONFIG
@@ -302,40 +303,42 @@ st.markdown("<br>", unsafe_allow_html=True)
 # DRUG EXPLORER
 # -------------------------------------------------
 
-st.markdown("""
-## 🔍 Drug Explorer
+st.markdown("## 🔍 Drug Explorer")
 
-Search any drug to view its molecular properties.
-""")
+st.caption("Search a drug to view its molecular properties.")
 
 selected_drug = st.selectbox(
     "💊 Search Drug",
     sorted(dataset["Drug_Name"].unique()),
+    index=None,
+    placeholder="Type a drug name...",
     key="drug_explorer"
 )
 
-drug_info = dataset[
-    dataset["Drug_Name"] == selected_drug
-].iloc[0]
+if selected_drug:
 
-col1, col2 = st.columns(2)
+    drug_info = dataset[
+        dataset["Drug_Name"] == selected_drug
+    ].iloc[0]
 
-with col1:
+    col1, col2 = st.columns(2)
 
-    st.info(f"**Drug Name**\n\n{drug_info['Drug_Name']}")
-    st.info(f"**Drug Class**\n\n{drug_info['Drug_Class']}")
-    st.info(f"**PubChem CID**\n\n{drug_info['PubChem_CID']}")
-    st.info(f"**Molecular Weight**\n\n{drug_info['MolecularWeight']}")
-    st.info(f"**LogP**\n\n{drug_info['LogP']}")
+    with col1:
 
-with col2:
+        st.info(f"**Drug Name**\n\n{drug_info['Drug_Name']}")
+        st.info(f"**Drug Class**\n\n{drug_info['Drug_Class']}")
+        st.info(f"**PubChem CID**\n\n{drug_info['PubChem_CID']}")
+        st.info(f"**Molecular Weight**\n\n{drug_info['MolecularWeight']}")
+        st.info(f"**LogP**\n\n{drug_info['LogP']}")
 
-    st.info(f"**TPSA**\n\n{drug_info['TPSA']}")
-    st.info(f"**H-Bond Donor**\n\n{drug_info['HBondDonor']}")
-    st.info(f"**H-Bond Acceptor**\n\n{drug_info['HBondAcceptor']}")
-    st.info(f"**Rotatable Bonds**\n\n{drug_info['RotatableBonds']}")
-    st.info(f"**Heavy Atom Count**\n\n{drug_info['HeavyAtomCount']}")
-    st.info(f"**Ring Count**\n\n{drug_info['RingCount']}")
+    with col2:
+
+        st.info(f"**TPSA**\n\n{drug_info['TPSA']}")
+        st.info(f"**H-Bond Donor**\n\n{drug_info['HBondDonor']}")
+        st.info(f"**H-Bond Acceptor**\n\n{drug_info['HBondAcceptor']}")
+        st.info(f"**Rotatable Bonds**\n\n{drug_info['RotatableBonds']}")
+        st.info(f"**Heavy Atom Count**\n\n{drug_info['HeavyAtomCount']}")
+        st.info(f"**Ring Count**\n\n{drug_info['RingCount']}")
 
 
 st.markdown("---")
@@ -537,6 +540,91 @@ if st.button("🚀 Predict Binding Affinity"):
             st.info(f"**Rotatable Bonds**\n\n{row['RotatableBonds'].values[0]}")
             st.info(f"**Heavy Atom Count**\n\n{row['HeavyAtomCount'].values[0]}")
             st.info(f"**Ring Count**\n\n{row['RingCount'].values[0]}")
+
+# -------------------------------------------------
+# PUBCHEM DRUG EXPLORER
+# -------------------------------------------------
+
+import requests
+
+st.markdown("---")
+st.markdown("## 🔎 PubChem Drug Explorer")
+
+drug_query = st.text_input(
+    "Search any drug",
+    placeholder="Example: Aspirin, Captopril, Lisinopril..."
+)
+
+if drug_query:
+
+    url = (
+        "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/"
+        f"{drug_query}/property/"
+        "MolecularWeight,XLogP,TPSA,HBondDonorCount,"
+        "HBondAcceptorCount,RotatableBondCount,"
+        "MolecularFormula,ExactMass,Complexity,"
+        "CanonicalSMILES,IUPACName,CID/JSON"
+    )
+
+    response = requests.get(url)
+
+    if response.status_code == 200:
+
+        prop = response.json()["PropertyTable"]["Properties"][0]
+
+        st.success("Drug Found!")
+
+        st.write(prop)
+
+            c1, c2 = st.columns(2)
+
+            with c1:
+
+                st.metric(
+                    "Drug",
+                    drug_query.title()
+                )
+
+                st.metric(
+                    "Molecular Weight",
+                    prop.get("MolecularWeight", "NA")
+                )
+
+                st.metric(
+                    "LogP",
+                    prop.get("XLogP", "NA")
+                )
+
+            with c2:
+
+                st.metric(
+                    "TPSA",
+                    prop.get("TPSA", "NA")
+                )
+
+                st.metric(
+                    "H-Bond Donor",
+                    prop.get("HBondDonorCount", "NA")
+                )
+
+                st.metric(
+                    "H-Bond Acceptor",
+                    prop.get("HBondAcceptorCount", "NA")
+                )
+
+            st.markdown("### IUPAC Name")
+
+            st.info(
+                prop.get("IUPACName", "Not Available")
+            )
+
+        else:
+
+            st.error("Drug not found in PubChem.")
+
+    except Exception as e:
+
+        st.error(f"Error : {e}")
 
 
 st.markdown("""

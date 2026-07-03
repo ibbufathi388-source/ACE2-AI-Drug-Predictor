@@ -503,8 +503,6 @@ if drug_query:
                 prop.get("IUPACName", "Not Available")
             )
 
-            st.write("### Canonical SMILES")
-
 
     else:
 

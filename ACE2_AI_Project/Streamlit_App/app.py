@@ -170,55 +170,26 @@ dataset = pd.read_excel(DATA_PATH)
 # -------------------------------------------------
 
 st.markdown("""
-
 <div style="background:rgba(255,255,255,0.06);
-padding:35px;
-border-radius:25px;
+padding:35px;border-radius:25px;
 backdrop-filter:blur(20px);
 border:1px solid rgba(255,255,255,0.12);
 box-shadow:0 0 35px rgba(0,212,255,.18);
 text-align:center;">
 
-<h1 style="
-
-font-size:55px;
-
-color:white;
-
-margin-bottom:10px;
-
-">
-
+<h1 style="font-size:55px;color:white;margin-bottom:10px;">
 🧬 ACE2Predict AI
-
 </h1>
 
-<h3 style="
-
-color:#BBD8FF;
-
-font-weight:400;
-
-">
-
+<h3 style="color:#BBD8FF;font-weight:400;">
 AI Powered Drug Binding Affinity Prediction Platform
-
 </h3>
 
-<p style="
-
-font-size:18px;
-
-color:#D8E7FF;
-
-">
-
+<p style="font-size:18px;color:#D8E7FF;">
 Bioinformatics • Machine Learning • Explainable AI • Drug Discovery
-
 </p>
 
 </div>
-
 """, unsafe_allow_html=True)
 
 st.markdown("<br>", unsafe_allow_html=True)
@@ -428,38 +399,24 @@ if st.button("🚀 Predict Binding Affinity"):
 
 
 st.markdown("""
-
 <div style="
-
 background:linear-gradient(
 90deg,
 rgba(0,212,255,.15),
 rgba(123,97,255,.15)
 );
-
 padding:18px;
-
 border-radius:20px;
-
 border:1px solid rgba(255,255,255,.12);
-
 text-align:center;
-
 margin-bottom:25px;
-
 ">
-
 <h4 style="color:white;">
-
 🧬 AI • Bioinformatics • Machine Learning • Explainable AI
-
 </h4>
-
 </div>
-
 """, unsafe_allow_html=True)
 st.markdown("---")
-
 st.markdown("""
 <div style="
 background:rgba(255,255,255,.06);
@@ -468,18 +425,14 @@ border-radius:18px;
 text-align:center;
 border:1px solid rgba(255,255,255,.10);
 ">
-
 <h3 style="color:#00D4FF;">🧬 ACE2Predict AI</h3>
-
 <p style="color:white;font-size:20px;line-height:1.8;">
-👩‍💻 Developed by<br>
+ Developed by<br>
 <b>Hajeera</b> • <b>Avanthy</b> • <b>Durga</b>
 </p>
-
 <p style="color:#C7D2FE;">
 AI Powered Drug Binding Affinity Prediction Platform
 </p>
-
 </div>
 """, unsafe_allow_html=True)
 

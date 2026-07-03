@@ -557,26 +557,27 @@ drug_query = st.text_input(
 
 if drug_query:
 
-    url = (
-        "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/"
-        f"{drug_query}/property/"
-        "MolecularWeight,XLogP,TPSA,HBondDonorCount,"
-        "HBondAcceptorCount,RotatableBondCount,"
-        "MolecularFormula,ExactMass,Complexity,"
-        "CanonicalSMILES,IUPACName,CID/JSON"
-    )
+    try:
 
-    response = requests.get(url)
+        url = (
+            "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/"
+            f"{drug_query}/property/"
+            "MolecularWeight,XLogP,TPSA,"
+            "HBondDonorCount,HBondAcceptorCount,"
+            "RotatableBondCount,MolecularFormula,"
+            "ExactMass,Complexity,"
+            "CanonicalSMILES,IUPACName,CID/JSON"
+        )
 
-    if response.status_code == 200:
+        response = requests.get(url)
 
-        prop = response.json()["PropertyTable"]["Properties"][0]
+        if response.status_code == 200:
 
-        st.success("Drug Found!")
+            prop = response.json()["PropertyTable"]["Properties"][0]
 
-        st.write(prop)
+            st.success("✅ Drug Found!")
 
-        c1, c2 = st.columns(2)
+            c1, c2 = st.columns(2)
 
             with c1:
 
@@ -612,19 +613,34 @@ if drug_query:
                     prop.get("HBondAcceptorCount", "NA")
                 )
 
-            st.markdown("### IUPAC Name")
+            st.markdown("### 🧬 Additional Information")
 
-            st.info(
-                prop.get("IUPACName", "Not Available")
-            )
+            st.write("**Molecular Formula:**", prop.get("MolecularFormula", "NA"))
+            st.write("**Exact Mass:**", prop.get("ExactMass", "NA"))
+            st.write("**Complexity:**", prop.get("Complexity", "NA"))
+
+            st.write("**Canonical SMILES:**")
+            st.code(prop.get("CanonicalSMILES", "NA"))
+
+            st.write("**IUPAC Name:**")
+            st.info(prop.get("IUPACName", "Not Available"))
+
+            cid = prop.get("CID", "")
+
+            if cid:
+
+                st.link_button(
+                    "🌐 Open in PubChem",
+                    f"https://pubchem.ncbi.nlm.nih.gov/compound/{cid}"
+                )
 
         else:
 
-            st.error("Drug not found in PubChem.")
+            st.error("❌ Drug not found in PubChem.")
 
     except Exception as e:
 
-        st.error(f"Error : {e}")
+        st.error(f"❌ Error: {e}")
 
 
 st.markdown("""

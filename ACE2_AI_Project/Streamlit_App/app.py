@@ -458,7 +458,7 @@ if drug_query:
     url = (
         f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/"
         f"{drug_name}/property/"
-        f"MolecularFormula,MolecularWeight,CanonicalSMILES,IUPACName,XLogP,TPSA/JSON"
+        f"MolecularFormula,MolecularWeight,IUPACName,XLogP,TPSA/JSON"
     )
 
     response = requests.get(url)

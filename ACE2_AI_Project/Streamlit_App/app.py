@@ -171,23 +171,13 @@ dataset = pd.read_excel(DATA_PATH)
 
 st.markdown("""
 
-<div style="
-
-background:rgba(255,255,255,0.06);
-
+<div style="background:rgba(255,255,255,0.06);
 padding:35px;
-
 border-radius:25px;
-
 backdrop-filter:blur(20px);
-
 border:1px solid rgba(255,255,255,0.12);
-
 box-shadow:0 0 35px rgba(0,212,255,.18);
-
-text-align:center;
-
-">
+text-align:center;">
 
 <h1 style="
 
@@ -247,7 +237,7 @@ with st.sidebar:
 
     st.markdown("---")
 
-    st.success("🤖 Machine Learning Model")
+    st.success("Machine Learning Model")
     st.write("**Extra Trees Regressor**")
 
     st.info("📈 R² Score : **0.993**")
@@ -256,28 +246,28 @@ with st.sidebar:
 
     st.markdown("---")
 
-    st.markdown("### 👩‍💻 Developer")
+    st.markdown("### Developer")
 
     st.success("Hajeera • Avanthy • Durga")
 
     st.markdown("---")
 
-    st.markdown("### 🚀 Technologies")
+    st.markdown("### Technologies")
 
     st.markdown("""
-✅ Python
+  Python
 
-✅ Machine Learning
+  Machine Learning
 
-✅ Bioinformatics
+  Bioinformatics
 
-✅ Explainable AI (SHAP)
+  Explainable AI (SHAP)
 
-✅ Streamlit
+  Streamlit
 
-✅ GitHub
+  GitHub
 
-✅ Molecular Docking
+  Molecular Docking
 """)
 
     st.markdown("---")
@@ -289,22 +279,12 @@ with st.sidebar:
 
 st.markdown("""
 
-<div style="
-
-background:rgba(255,255,255,.07);
-
+<div style="background:rgba(255,255,255,.07);
 padding:25px;
-
 border-radius:20px;
-
 border:1px solid rgba(255,255,255,.12);
-
 backdrop-filter:blur(15px);
-
-box-shadow:0 0 25px rgba(0,212,255,.15);
-
-">
-
+box-shadow:0 0 25px rgba(0,212,255,.15);">
 <h2 style="color:white;text-align:center;">
 
 🧪 Drug Binding Affinity Prediction
@@ -481,44 +461,25 @@ margin-bottom:25px;
 st.markdown("---")
 
 st.markdown("""
-
 <div style="
-
 background:rgba(255,255,255,.06);
-
 padding:20px;
-
 border-radius:18px;
-
 text-align:center;
-
 border:1px solid rgba(255,255,255,.10);
-
 ">
 
-<h3 style="color:#00D4FF;">
+<h3 style="color:#00D4FF;">🧬 ACE2Predict AI</h3>
 
-🧬 ACE2Predict AI
-
-</h3>
-
-<p style="color:white; font-size:20px; line-height:1.8;">
-
-👩‍💻 Developed by
-
-<br>
-
+<p style="color:white;font-size:20px;line-height:1.8;">
+👩‍💻 Developed by<br>
 <b>Hajeera</b> • <b>Avanthy</b> • <b>Durga</b>
-
 </p>
 
 <p style="color:#C7D2FE;">
-
 AI Powered Drug Binding Affinity Prediction Platform
-
 </p>
 
 </div>
-
 """, unsafe_allow_html=True)
 

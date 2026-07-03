@@ -476,22 +476,22 @@ if drug_query:
         with c1:
 
             st.metric(
-                "⚖ Molecular Weight",
+                "Molecular Weight",
                 prop.get("MolecularWeight", "NA")
             )
 
             st.metric(
-                "🧪 LogP",
+                "LogP",
                 prop.get("XLogP", "NA")
             )
 
             st.metric(
-                "🌐 TPSA",
+                "TPSA",
                 prop.get("TPSA", "NA")
             )
 
             st.metric(
-                "🧬 Formula",
+                "Formula",
                 prop.get("MolecularFormula", "NA")
             )
 
@@ -505,9 +505,6 @@ if drug_query:
 
             st.write("### Canonical SMILES")
 
-            st.code(
-                prop.get("CanonicalSMILES", "Not Available")
-            )
 
     else:
 

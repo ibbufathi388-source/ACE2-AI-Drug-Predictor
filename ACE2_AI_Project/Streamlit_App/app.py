@@ -244,6 +244,8 @@ with st.sidebar:
     st.markdown("---")
 
     st.caption("ACE2Predict AI v2.1")
+
+
 # -------------------------------------------------
 # USER INPUT
 # -------------------------------------------------
@@ -296,6 +298,145 @@ with right:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
+# -------------------------------------------------
+# DRUG EXPLORER
+# -------------------------------------------------
+
+st.markdown("""
+## 🔍 Drug Explorer
+
+Search any drug to view its molecular properties.
+""")
+
+selected_drug = st.selectbox(
+    "💊 Search Drug",
+    sorted(dataset["Drug_Name"].unique()),
+    key="drug_explorer"
+)
+
+drug_info = dataset[
+    dataset["Drug_Name"] == selected_drug
+].iloc[0]
+
+col1, col2 = st.columns(2)
+
+with col1:
+
+    st.info(f"**Drug Name**\n\n{drug_info['Drug_Name']}")
+    st.info(f"**Drug Class**\n\n{drug_info['Drug_Class']}")
+    st.info(f"**PubChem CID**\n\n{drug_info['PubChem_CID']}")
+    st.info(f"**Molecular Weight**\n\n{drug_info['MolecularWeight']}")
+    st.info(f"**LogP**\n\n{drug_info['LogP']}")
+
+with col2:
+
+    st.info(f"**TPSA**\n\n{drug_info['TPSA']}")
+    st.info(f"**H-Bond Donor**\n\n{drug_info['HBondDonor']}")
+    st.info(f"**H-Bond Acceptor**\n\n{drug_info['HBondAcceptor']}")
+    st.info(f"**Rotatable Bonds**\n\n{drug_info['RotatableBonds']}")
+    st.info(f"**Heavy Atom Count**\n\n{drug_info['HeavyAtomCount']}")
+    st.info(f"**Ring Count**\n\n{drug_info['RingCount']}")
+
+
+st.markdown("---")
+
+st.markdown("## 📋 Drug Summary")
+
+summary1, summary2, summary3 = st.columns(3)
+
+with summary1:
+    st.metric(
+        "⚖️ Molecular Weight",
+        f"{drug_info['MolecularWeight']:.2f}"
+    )
+
+with summary2:
+    st.metric(
+        "🧪 LogP",
+        f"{drug_info['LogP']:.2f}"
+    )
+
+with summary3:
+    st.metric(
+        "🌐 TPSA",
+        f"{drug_info['TPSA']:.2f}"
+    )
+
+st.markdown("---")
+
+st.markdown("## 🧬 Drug Quality Indicators")
+
+c1, c2, c3 = st.columns(3)
+
+with c1:
+    st.success(f"🟢 H-Bond Donor : {drug_info['HBondDonor']}")
+
+with c2:
+    st.info(f"🔵 H-Bond Acceptor : {drug_info['HBondAcceptor']}")
+
+with c3:
+    st.warning(f"🟡 Rotatable Bonds : {drug_info['RotatableBonds']}")
+
+st.markdown("---")
+
+st.markdown("## 🌐 External Resources")
+
+pubchem_id = str(drug_info["PubChem_CID"])
+
+pubchem_url = f"https://pubchem.ncbi.nlm.nih.gov/compound/{pubchem_id}"
+
+st.link_button(
+    "🔗 View Drug on PubChem",
+    pubchem_url
+)
+st.markdown("---")
+
+st.markdown("## 📝 Drug Overview")
+
+st.write(f"""
+**{drug_info['Drug_Name']}** belongs to the
+**{drug_info['Drug_Class']}** class.
+
+This drug is included in the ACE2Predict AI
+database for predicting binding affinity
+against ACE2 mutations using an
+Extra Trees Machine Learning model.
+""")
+
+# -------------------------------------------------
+# MUTATION EXPLORER
+# -------------------------------------------------
+
+st.markdown("---")
+st.markdown("## 🧬 Mutation Explorer")
+
+selected_mutation = st.selectbox(
+    "Select Mutation",
+    sorted(dataset["Mutation"].unique()),
+    key="mutation_explorer"
+)
+
+mutation_info = dataset[
+    dataset["Mutation"] == selected_mutation
+].iloc[0]
+
+col1, col2 = st.columns(2)
+
+with col1:
+
+    st.info(f"**Mutation**\n\n{mutation_info['Mutation']}")
+    st.info(f"**Position**\n\n{mutation_info['Position']}")
+    st.info(f"**Wild Type Charge**\n\n{mutation_info['WT_Charge']}")
+    st.info(f"**Mutant Charge**\n\n{mutation_info['Mut_Charge']}")
+    st.info(f"**Charge Difference**\n\n{mutation_info['Charge_Diff']}")
+
+with col2:
+
+    st.info(f"**Wild Hydrophobicity**\n\n{mutation_info['WT_Hydrophobicity']}")
+    st.info(f"**Mutant Hydrophobicity**\n\n{mutation_info['Mut_Hydrophobicity']}")
+    st.info(f"**Hydrophobicity Difference**\n\n{mutation_info['Hydrophobicity_Diff']}")
+    st.info(f"**Volume Difference**\n\n{mutation_info['Volume_Diff']}")
+    st.info(f"**Aromatic Change**\n\n{mutation_info['Aromatic_Changed']}")
 # -------------------------------------------------
 # PREDICTION
 # -------------------------------------------------
@@ -419,20 +560,22 @@ margin-bottom:25px;
 st.markdown("---")
 st.markdown("""
 <div style="
-background:rgba(255,255,255,.06);
-padding:20px;
-border-radius:18px;
+background:linear-gradient(
+90deg,
+rgba(0,212,255,.15),
+rgba(123,97,255,.15)
+);
+padding:18px;
+border-radius:20px;
+border:1px solid rgba(255,255,255,.12);
 text-align:center;
-border:1px solid rgba(255,255,255,.10);
+margin-bottom:25px;
 ">
-<h3 style="color:#00D4FF;">🧬 ACE2Predict AI</h3>
-<p style="color:white;font-size:20px;line-height:1.8;">
- Developed by<br>
-<b>Hajeera</b> • <b>Avanthy</b> • <b>Durga</b>
-</p>
-<p style="color:#C7D2FE;">
-AI Powered Drug Binding Affinity Prediction Platform
-</p>
+
+<h4 style="color:white;">
+🧬 Powered by Machine Learning • Molecular Docking • Bioinformatics
+</h4>
+
 </div>
 """, unsafe_allow_html=True)
 

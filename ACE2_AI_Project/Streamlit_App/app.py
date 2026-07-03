@@ -437,113 +437,81 @@ if st.button("🚀 Predict Binding Affinity"):
             st.info(f"**Ring Count**\n\n{row['RingCount'].values[0]}")
 
 # -------------------------------------------------
-# DRUG EXPLORER
+# PUBCHEM DRUG EXPLORER
 # -------------------------------------------------
 
-st.markdown("---")
-st.markdown("## 🔎 Drug Explorer")
+import requests
+from urllib.parse import quote
 
-search_drug = st.selectbox(
-    "Search Drug",
-    sorted(dataset["Drug_Name"].unique()),
-    index=None,
-    placeholder="Type or search a drug..."
+st.markdown("---")
+st.markdown("## 🔎 PubChem Drug Explorer")
+
+drug_query = st.text_input(
+    "Search any drug",
+    placeholder="Example: Aspirin, Acetaminophen, Metformin..."
 )
 
-if search_drug:
+if drug_query:
 
-    drug = dataset[
-        dataset["Drug_Name"] == search_drug
-    ].iloc[0]
+    drug_name = quote(drug_query.strip())
 
-    st.success(f"✅ {search_drug} Found")
-
-    st.markdown(f"## 💊 {drug['Drug_Name']}")
-
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        st.metric(
-            "⚖ Molecular Weight",
-            drug["MolecularWeight"]
-        )
-
-        st.metric(
-            "LogP",
-            drug["LogP"]
-        )
-
-        st.metric(
-            "TPSA",
-            drug["TPSA"]
-        )
-
-    with col2:
-
-        st.metric(
-            "H-Bond Donor",
-            drug["HBondDonor"]
-        )
-
-        st.metric(
-            "H-Bond Acceptor",
-            drug["HBondAcceptor"]
-        )
-
-        st.metric(
-            "Rotatable Bonds",
-            drug["RotatableBonds"]
-        )
-
-    with col3:
-
-        st.metric(
-            "Heavy Atom Count",
-            drug["HeavyAtomCount"]
-        )
-
-        st.metric(
-            "Ring Count",
-            drug["RingCount"]
-        )
-
-        st.metric(
-            "PubChem CID",
-            drug["PubChem_CID"]
-        )
-
-    st.markdown("---")
-
-    st.subheader("Drug Information")
-
-    st.write(
-        f"**Drug Class:** {drug['Drug_Class']}"
+    url = (
+        f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/"
+        f"{drug_name}/property/"
+        f"MolecularFormula,MolecularWeight,CanonicalSMILES,IUPACName,XLogP,TPSA/JSON"
     )
 
-    st.write(
-        f"**PubChem CID:** {drug['PubChem_CID']}"
-    )
+    response = requests.get(url)
 
-    cid = drug["PubChem_CID"]
+    if response.status_code == 200:
 
-    image_url = (
-        f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/CID/{cid}/PNG"
-    )
+        prop = response.json()["PropertyTable"]["Properties"][0]
 
-    st.image(
-        image_url,
-        width=250,
-        caption=f"{drug['Drug_Name']} Structure"
-    )
+        st.success("✅ Drug Found")
 
-    pubchem_url = (
-        f"https://pubchem.ncbi.nlm.nih.gov/compound/{cid}"
-    )
+        st.markdown(f"## 💊 {drug_query.title()}")
 
-    st.link_button(
-        "🌐 Open in PubChem",
-        pubchem_url
-    )
+        c1, c2 = st.columns(2)
+
+        with c1:
+
+            st.metric(
+                "⚖ Molecular Weight",
+                prop.get("MolecularWeight", "NA")
+            )
+
+            st.metric(
+                "🧪 LogP",
+                prop.get("XLogP", "NA")
+            )
+
+            st.metric(
+                "🌐 TPSA",
+                prop.get("TPSA", "NA")
+            )
+
+            st.metric(
+                "🧬 Formula",
+                prop.get("MolecularFormula", "NA")
+            )
+
+        with c2:
+
+            st.write("### IUPAC Name")
+
+            st.info(
+                prop.get("IUPACName", "Not Available")
+            )
+
+            st.write("### Canonical SMILES")
+
+            st.code(
+                prop.get("CanonicalSMILES", "Not Available")
+            )
+
+    else:
+
+        st.error("❌ Drug not found.")
 
 st.markdown("""
 <div style="

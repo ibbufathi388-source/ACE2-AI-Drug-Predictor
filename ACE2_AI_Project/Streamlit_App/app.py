@@ -3,6 +3,7 @@ import pandas as pd
 import joblib
 from pathlib import Path
 import requests
+from urllib.parse import quote
 
 # -------------------------------------------------
 # PAGE CONFIG
@@ -439,7 +440,6 @@ if st.button("🚀 Predict Binding Affinity"):
 # PUBCHEM DRUG EXPLORER
 # -------------------------------------------------
 
-import requests
 
 st.markdown("---")
 st.markdown("## 🔎 PubChem Drug Explorer")
@@ -451,64 +451,50 @@ drug_query = st.text_input(
 
 if drug_query:
 
-    try:
+    drug_query = quote(drug_query.strip())
 
-        url = (
-            "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/"
-            f"{drug_query}/property/"
-            "MolecularWeight,XLogP,TPSA,"
-            "HBondDonorCount,HBondAcceptorCount,"
-            "RotatableBondCount,MolecularFormula,"
-            "ExactMass,Complexity,"
-            "CanonicalSMILES,IUPACName,CID/JSON"
-        )
+    url = (
+        "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/"
+        f"{drug_query}/property/"
+        "MolecularWeight,XLogP,TPSA,"
+        "HBondDonorCount,HBondAcceptorCount,"
+        "RotatableBondCount,MolecularFormula,"
+        "ExactMass,Complexity,"
+        "CanonicalSMILES,IUPACName,CID/JSON"
+    )
 
         response = requests.get(url)
+        st.write(url)
+        st.write(response.status_code)
+        st.write(response.text[:500])
 
         if response.status_code == 200:
 
             prop = response.json()["PropertyTable"]["Properties"][0]
 
             st.success("✅ Drug Found!")
+            st.markdown(f"## 💊 {drug_query.title()}")
 
-            c1, c2 = st.columns(2)
+           c1, c2, c3 = st.columns(3)
 
-            with c1:
+           with c1:
+               st.metric("Molecular Weight", prop.get("MolecularWeight","NA"))
+               st.metric("LogP", prop.get("XLogP","NA"))
+               st.metric("TPSA", prop.get("TPSA","NA"))
 
-                st.metric(
-                    "Drug",
-                    drug_query.title()
-                )
+           with c2:
+              st.metric("H-Bond Donor", prop.get("HBondDonorCount","NA"))
+              st.metric("H-Bond Acceptor", prop.get("HBondAcceptorCount","NA"))
+              st.metric("Rotatable Bonds", prop.get("RotatableBondCount","NA"))
 
-                st.metric(
-                    "Molecular Weight",
-                    prop.get("MolecularWeight", "NA")
-                )
+           with c3:
+              st.metric("Exact Mass", prop.get("ExactMass","NA"))
+              st.metric("Complexity", prop.get("Complexity","NA"))
+              st.metric("Formula", prop.get("MolecularFormula","NA"))
 
-                st.metric(
-                    "LogP",
-                    prop.get("XLogP", "NA")
-                )
-
-            with c2:
-
-                st.metric(
-                    "TPSA",
-                    prop.get("TPSA", "NA")
-                )
-
-                st.metric(
-                    "H-Bond Donor",
-                    prop.get("HBondDonorCount", "NA")
-                )
-
-                st.metric(
-                    "H-Bond Acceptor",
-                    prop.get("HBondAcceptorCount", "NA")
-                )
-
-            st.markdown("### 🧬 Additional Information")
-
+            
+            st.markdown("### 📋 Drug Information")
+           
             st.write("**Molecular Formula:**", prop.get("MolecularFormula", "NA"))
             st.write("**Exact Mass:**", prop.get("ExactMass", "NA"))
             st.write("**Complexity:**", prop.get("Complexity", "NA"))
@@ -521,12 +507,22 @@ if drug_query:
 
             cid = prop.get("CID", "")
 
-            if cid:
+          if cid:
 
-                st.link_button(
-                    "🌐 Open in PubChem",
-                    f"https://pubchem.ncbi.nlm.nih.gov/compound/{cid}"
-                )
+              image_url = (
+                f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/CID/{cid}/PNG"
+              )
+
+             st.image(
+                 image_url,
+                 caption=f"{drug_query.title()} Structure",
+                 width=250
+             )
+
+             st.link_button(
+                 "🌐 View on PubChem",
+                 f"https://pubchem.ncbi.nlm.nih.gov/compound/{cid}"
+             )
 
         else:
 

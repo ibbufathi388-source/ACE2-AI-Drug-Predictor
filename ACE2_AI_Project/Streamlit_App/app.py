@@ -530,9 +530,6 @@ if drug_query:
         else:
 
             st.error("❌ Drug not found in PubChem.")
-        else:
-
-            st.error("❌ Drug not found in PubChem.")
 
     except Exception as e:
 

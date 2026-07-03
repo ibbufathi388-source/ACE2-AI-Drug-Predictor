@@ -11,7 +11,6 @@ from urllib.parse import quote
 
 st.set_page_config(
     page_title="ACE2Predict AI",
-    page_icon="🧬",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -306,7 +305,7 @@ st.markdown("<br>", unsafe_allow_html=True)
 # -------------------------------------------------
 
 st.markdown("---")
-st.markdown("## 🧬 Mutation Explorer")
+st.markdown("## Mutation Explorer")
 
 selected_mutation = st.selectbox(
     "Select Mutation",

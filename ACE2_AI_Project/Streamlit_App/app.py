@@ -531,10 +531,6 @@ if drug_query:
 
             st.error("❌ Drug not found in PubChem.")
 
-    except Exception as e:
-
-        st.error(f"❌ Error: {e}")
-
 
 st.markdown("""
 <div style="

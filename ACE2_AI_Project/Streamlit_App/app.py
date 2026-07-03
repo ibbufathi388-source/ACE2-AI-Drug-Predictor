@@ -576,7 +576,7 @@ if drug_query:
 
         st.write(prop)
 
-            c1, c2 = st.columns(2)
+        c1, c2 = st.columns(2)
 
             with c1:
 

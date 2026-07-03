@@ -300,40 +300,7 @@ with right:
 st.markdown("<br>", unsafe_allow_html=True)
 
 
-# -------------------------------------------------
-# MUTATION EXPLORER
-# -------------------------------------------------
 
-st.markdown("---")
-st.markdown("## Mutation Explorer")
-
-selected_mutation = st.selectbox(
-    "Select Mutation",
-    sorted(dataset["Mutation"].unique()),
-    key="mutation_explorer"
-)
-
-mutation_info = dataset[
-    dataset["Mutation"] == selected_mutation
-].iloc[0]
-
-col1, col2 = st.columns(2)
-
-with col1:
-
-    st.info(f"**Mutation**\n\n{mutation_info['Mutation']}")
-    st.info(f"**Position**\n\n{mutation_info['Position']}")
-    st.info(f"**Wild Type Charge**\n\n{mutation_info['WT_Charge']}")
-    st.info(f"**Mutant Charge**\n\n{mutation_info['Mut_Charge']}")
-    st.info(f"**Charge Difference**\n\n{mutation_info['Charge_Diff']}")
-
-with col2:
-
-    st.info(f"**Wild Hydrophobicity**\n\n{mutation_info['WT_Hydrophobicity']}")
-    st.info(f"**Mutant Hydrophobicity**\n\n{mutation_info['Mut_Hydrophobicity']}")
-    st.info(f"**Hydrophobicity Difference**\n\n{mutation_info['Hydrophobicity_Diff']}")
-    st.info(f"**Volume Difference**\n\n{mutation_info['Volume_Diff']}")
-    st.info(f"**Aromatic Change**\n\n{mutation_info['Aromatic_Changed']}")
 # -------------------------------------------------
 # PREDICTION
 # -------------------------------------------------
@@ -434,6 +401,40 @@ if st.button("🚀 Predict Binding Affinity"):
             st.info(f"**Rotatable Bonds**\n\n{row['RotatableBonds'].values[0]}")
             st.info(f"**Heavy Atom Count**\n\n{row['HeavyAtomCount'].values[0]}")
             st.info(f"**Ring Count**\n\n{row['RingCount'].values[0]}")
+# -------------------------------------------------
+# MUTATION EXPLORER
+# -------------------------------------------------
+
+st.markdown("---")
+st.markdown("## Mutation Explorer")
+
+selected_mutation = st.selectbox(
+    "Select Mutation",
+    sorted(dataset["Mutation"].unique()),
+    key="mutation_explorer"
+)
+
+mutation_info = dataset[
+    dataset["Mutation"] == selected_mutation
+].iloc[0]
+
+col1, col2 = st.columns(2)
+
+with col1:
+
+    st.info(f"**Mutation**\n\n{mutation_info['Mutation']}")
+    st.info(f"**Position**\n\n{mutation_info['Position']}")
+    st.info(f"**Wild Type Charge**\n\n{mutation_info['WT_Charge']}")
+    st.info(f"**Mutant Charge**\n\n{mutation_info['Mut_Charge']}")
+    st.info(f"**Charge Difference**\n\n{mutation_info['Charge_Diff']}")
+
+with col2:
+
+    st.info(f"**Wild Hydrophobicity**\n\n{mutation_info['WT_Hydrophobicity']}")
+    st.info(f"**Mutant Hydrophobicity**\n\n{mutation_info['Mut_Hydrophobicity']}")
+    st.info(f"**Hydrophobicity Difference**\n\n{mutation_info['Hydrophobicity_Diff']}")
+    st.info(f"**Volume Difference**\n\n{mutation_info['Volume_Diff']}")
+    st.info(f"**Aromatic Change**\n\n{mutation_info['Aromatic_Changed']}")
 
 # -------------------------------------------------
 # PUBCHEM DRUG EXPLORER

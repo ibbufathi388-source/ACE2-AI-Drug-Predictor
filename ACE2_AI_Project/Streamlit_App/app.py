@@ -204,7 +204,7 @@ with st.sidebar:
 
     st.markdown("""
     <h2 style='text-align:center;color:#00E5FF;'>
-    🧬 ACE2Predict AI
+      ACE2Predict AI
     </h2>
     """, unsafe_allow_html=True)
 
@@ -262,13 +262,13 @@ backdrop-filter:blur(15px);
 box-shadow:0 0 25px rgba(0,212,255,.15);">
 <h2 style="color:white;text-align:center;">
 
-🧪 Drug Binding Affinity Prediction
+   Drug Binding Affinity Prediction
 
 </h2>
 
 <p style="text-align:center;color:#D6E8FF;">
 
-Choose a mutation and a drug to predict the binding affinity using our trained AI model.
+   Choose a mutation and a drug to predict the binding affinity using our trained AI model.
 
 </p>
 
